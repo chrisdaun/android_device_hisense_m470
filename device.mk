@@ -86,7 +86,10 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES := \
     audio.a2dp.default \
+    audio.r_submix.default \
+    libaudioutils \
     lights.m470 \
+    libhealthd.m470 \
     librs_jni \
     setup_fs \
     l2ping \
