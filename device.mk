@@ -90,6 +90,7 @@ PRODUCT_PACKAGES := \
     libaudioutils \
     lights.m470 \
     libhealthd.m470 \
+    libdumpstate.m470 \
     librs_jni \
     setup_fs \
     l2ping \
