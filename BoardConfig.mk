@@ -85,7 +85,7 @@ BOARD_HAVE_PIXEL_FORMAT_INFO := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_RECOVERY_UI_LIB := librecovery_ui_m470
 RECOVERY_FSTAB_VERSION := 2
-TARGET_RECOVERY_FSTAB = device/hisense/m470/prebuilt/ramdisk/fstab.m470
+TARGET_RECOVERY_FSTAB := device/hisense/m470/prebuilt/ramdisk/fstab.m470
 BOARD_RECOVERY_SWIPE := true
 
 # Twrp

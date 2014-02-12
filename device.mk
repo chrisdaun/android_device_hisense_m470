@@ -85,11 +85,16 @@ PRODUCT_COPY_FILES += \
     device/hisense/m470/prebuilt/usr/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
 
 PRODUCT_PACKAGES := \
-    audio.a2dp.default \
-    libaudioutils \
-    lights.m470 \
+    audio.r_submix.default \
+    bttest \
+    com.android.future.usb.accessory \
+    hcitool \
+    l2ping \
+    keystore.m470 \
+    libdumpstate.m470 \
     libhealthd.m470 \
     libdumpstate.m470 \
+    lights.m470 \
     librs_jni \
     setup_fs \
     l2ping \
@@ -100,6 +105,9 @@ PRODUCT_PACKAGES := \
 PRODUCT_PACKAGES += \
     keystore.m470
 
+PRODUCT_COPY_FILES += \
+    device/hisense/m470/libbt-vendor/libbt-vendor.so:system/vendor/lib/libbt-vendor.so \
+    device/hisense/m470/tinyalsa/libtinyalsa.so:system/lib/libtinyalsa.so
 
 # Include Proprietary files
 include vendor/hisense/m470/device-vendor.mk
