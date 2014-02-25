@@ -1,0 +1,9 @@
+#!/system/bin/sh
+# Mac Address Needs to be read from /sys/devices/platform/bck/wifi_addr
+
+cp /system/etc/nvram.txt /data/misc/wifi/nvram.txt
+echo macaddr=$(cat /sys/devices/platform/bck/wifi_addr) >> /data/misc/wifi/nvram.txt
+echo "over_ride=1" >> /data/misc/wifi/nvram.txt
+chmod 0644 /data/misc/wifi/nvram.txt
+echo "Mac Address Assigned!"
+exit

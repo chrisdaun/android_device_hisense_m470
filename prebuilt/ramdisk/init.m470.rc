@@ -98,10 +98,11 @@ on boot
 # Load wifi driver
     insmod /system/lib/modules/cfg80211.ko
     insmod /system/lib/modules/bcmdhd.ko
-    setprop wifi.supplicant wpa_supplicant
+    setprop init.svc.wpa_supplicant "wpa_supplicant"
+    setprop init.svc.p2p_supplicant "p2p_supplicant" 
+
 # backlight
     chown system system /sys/class/backlight/pwm-backlight/brightness
-
 
 # didim
     chown system system /sys/class/graphics/fb0/device/smartdimmer/enable
@@ -358,6 +359,10 @@ service dhcpcd_bt-pan /system/bin/dhcpcd -BKLG
 
 service iprenew_bt-pan /system/bin/dhcpcd -n
     disabled
+    oneshot
+
+service wifimacwriter /system/bin/logwrapper /system/bin/wifimacwriter
+    class late_start
     oneshot
 
 # btmacwriter - to create unique BD address

@@ -92,16 +92,12 @@ PRODUCT_PACKAGES := \
     keystore.m470 \
     libdumpstate.m470 \
     libhealthd.m470 \
-    libdumpstate.m470 \
     lights.m470 \
     librs_jni \
     setup_fs \
     hcitool \
     bttest \
     com.android.future.usb.accessory
-
-PRODUCT_PACKAGES += \
-    keystore.m470
 
 PRODUCT_COPY_FILES += \
     device/hisense/m470/tinyalsa/libtinyalsa.so:system/lib/libtinyalsa.so
@@ -123,6 +119,9 @@ PRODUCT_CHARACTERISTICS := tablet
 # build wireless firmware instead of using prebuilts
 WIFI_BAND := 802_11_ABGN
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4330/device-bcm.mk)
+
+PRODUCT_COPY_FILES += \
+    device/hisense/m470/prebuilt/vendor/firmware/fw_bcmdhd_p2p.bin:system/vendor/firmware/fw_bcmdhd_p2p.bin
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -186,6 +185,7 @@ PRODUCT_COPY_FILES += \
 
 # Wifi
 PRODUCT_COPY_FILES += \
+    device/hisense/m470/prebuilt/bin/wifimacwriter:system/bin/wifimacwriter \
     device/hisense/m470/prebuilt/etc/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     device/hisense/m470/prebuilt/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant.conf
 
