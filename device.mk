@@ -15,13 +15,13 @@
 #
 
 # Kernel
-
+ifneq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/hisense/m470/prebuilt/kernel/kernel
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
 
-# Kernel modules REMEMBER TO REMOVE IF EVER WE GET KERNEL SOURCE
+# Kernel modules
 PRODUCT_COPY_FILES += \
     device/hisense/m470/prebuilt/kernel/modules/baseband_usb_chr.ko:system/lib/modules/baseband_usb_chr.ko \
     device/hisense/m470/prebuilt/kernel/modules/bcmdhd.ko:system/lib/modules/bcmdhd.ko \
@@ -32,6 +32,7 @@ PRODUCT_COPY_FILES += \
     device/hisense/m470/prebuilt/kernel/modules/raw_ip_net.ko:system/lib/modules/raw_ip_net.ko \
     device/hisense/m470/prebuilt/kernel/modules/scsi_wait_scan.ko:system/lib/modules/scsi_wait_scan.ko \
     device/hisense/m470/prebuilt/kernel/modules/tcrypt.ko:system/lib/modules/tcrypt.ko
+endif
 
 PRODUCT_AAPT_CONFIG := normal large tvdpi hdpi
 PRODUCT_AAPT_PREF_CONFIG := tvdpi
@@ -41,7 +42,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
     ro.carrier=wifi-only \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=15 \
-    tf.enable=y \
+    tf.enable=n \
     drm.service.enabled=true
 
 # Set default USB interface
@@ -52,9 +53,11 @@ include frameworks/native/build/tablet-7in-hdpi-1024-dalvik-heap.mk
 
 PRODUCT_COPY_FILES += \
     device/hisense/m470/prebuilt/ramdisk/fstab.m470:root/fstab.m470 \
-    device/hisense/m470/prebuilt/ramdisk/ueventd.m470.rc:root/ueventd.m470.rc \
     device/hisense/m470/prebuilt/ramdisk/init.m470.rc:root/init.m470.rc \
-    device/hisense/m470/prebuilt/ramdisk/init.m470.usb.rc:root/init.m470.usb.rc
+    device/hisense/m470/prebuilt/ramdisk/init.m470.usb.rc:root/init.m470.usb.rc \
+    device/hisense/m470/prebuilt/ramdisk/init.tf.rc:root/init.tf.rc \
+    device/hisense/m470/prebuilt/ramdisk/ueventd.m470.rc:root/ueventd.m470.rc \
+    device/hisense/m470/prebuilt/ramdisk/twrp.fstab:recovery/root/etc/twrp.fstab
 
 ifneq ($(TARGET_PREBUILT_WIFI_MODULE),)
 PRODUCT_COPY_FILES += \
@@ -74,7 +77,8 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
-    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml
+    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+    frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml 
 
 PRODUCT_COPY_FILES += \
     device/hisense/m470/prebuilt/usr/idc/atmel-maxtouch.idc:system/usr/idc/atmel-maxtouch.idc \
@@ -82,17 +86,21 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES := \
     audio.a2dp.default \
+    audio.r_submix.default \
+    hcitool \
+    l2ping \
+    keystore.m470 \
+    libdumpstate.m470 \
+    libhealthd.m470 \
     lights.m470 \
     librs_jni \
     setup_fs \
-    l2ping \
     hcitool \
     bttest \
     com.android.future.usb.accessory
 
-PRODUCT_PACKAGES += \
-    keystore.m470
-
+PRODUCT_COPY_FILES += \
+    device/hisense/m470/tinyalsa/libtinyalsa.so:system/lib/libtinyalsa.so
 
 # Include Proprietary files
 include vendor/hisense/m470/device-vendor.mk
@@ -101,9 +109,8 @@ include vendor/hisense/m470/device-vendor.mk
 
 # NFC packages
 PRODUCT_PACKAGES += \
+    nfc_nci.m470 \
     NfcNci \
-    libnfc \
-    libnfc_jni \
     Tag \
     com.android.nfc_extras
 
@@ -112,6 +119,9 @@ PRODUCT_CHARACTERISTICS := tablet
 # build wireless firmware instead of using prebuilts
 WIFI_BAND := 802_11_ABGN
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4330/device-bcm.mk)
+
+PRODUCT_COPY_FILES += \
+    device/hisense/m470/prebuilt/vendor/firmware/fw_bcmdhd_p2p.bin:system/vendor/firmware/fw_bcmdhd_p2p.bin
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -144,7 +154,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/hisense/m470/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
     device/hisense/m470/prebuilt/etc/asound.conf:system/etc/asound.conf \
+    device/hisense/m470/prebuilt/etc/dbus.conf:system/etc/dbus.conf \
+    device/hisense/m470/prebuilt/etc/enctune.conf:system/etc/enctune.conf \
     device/hisense/m470/prebuilt/etc/gps/gpsconfig.xml:system/etc/gps/gpsconfig.xml \
+    device/hisense/m470/prebuilt/etc/model_frontal.xml:system/etc/model_frontal.xml \
     device/hisense/m470/prebuilt/etc/nvcamera.conf:system/etc/nvcamera.conf \
     device/hisense/m470/prebuilt/etc/nvram_4330.txt:system/etc/nvram.txt \
     device/hisense/m470/prebuilt/etc/nvram_4330.txt:system/etc/nvram_4330.txt \
@@ -172,14 +185,15 @@ PRODUCT_COPY_FILES += \
 
 # Wifi
 PRODUCT_COPY_FILES += \
+    device/hisense/m470/prebuilt/bin/wifimacwriter:system/bin/wifimacwriter \
     device/hisense/m470/prebuilt/etc/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     device/hisense/m470/prebuilt/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant.conf
 
 # NFC
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/com.nxp.mifare.xml:system/etc/permissions/com.nxp.mifare.xml \
     frameworks/native/data/etc/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
-    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml
+    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
+    frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml
 
 # NFCEE access control
     NFCEE_ACCESS_PATH := device/hisense/m470/prebuilt/etc/nfcee_access.xml
@@ -189,3 +203,5 @@ PRODUCT_COPY_FILES += \
 
 DEVICE_PACKAGE_OVERLAYS := \
     device/hisense/m470/overlay
+
+$(call inherit-product, frameworks/base/data/sounds/AudioPackage10.mk)
